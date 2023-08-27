@@ -1,0 +1,103 @@
+﻿@using PokedexApp.Service;
+@{
+	var pokemons = ViewData["Pokemons"] as List<Pokemon>;
+}
+
+<h1 class="d-flex justify-content-center align-content-center text-danger fw-bold fst-italic">Find your pokemon!</h1>
+
+<form method="get">
+	<div class="border p-3 mt-4">
+		<div class="mb-3">
+			<label>Pokemon Name</label><input type="text" class="form-control" name="pokemonName" value="@Context.Request.Query["pokemonName"]">
+		</div>
+		<div class="mb-3">
+			<label>Pokemon Type</label><input type="text" class="form-control" name="pokemonType" value="@Context.Request.Query["pokemonType"]">
+		</div>
+		<button type="submit" class="btn bg-danger" style="width:150px">
+			<span class="text-light fw-bold fst-italic">Search</span>
+		</button>
+		<button type="submit" class="btn bg-dark" style="width:150px">
+			<a asp-area="" asp-controller="Discover" asp-action="AddPokemon" class="text-light fw-bold fst-italic">Add Pokemon</a>
+		</button>
+	</div>
+
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>
+					Looks
+				</th>
+				<th>
+					Name
+				</th>
+				<th>
+					Order
+				</th>
+				<th>
+					Height
+				</th>
+				<th>
+					Weight
+				</th>
+				<th>
+					Base Experience
+				</th>
+				<th>
+					Is Default
+				</th>
+				<th>
+					Types
+				</th>
+				<th/>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var item in pokemons ?? new List<Pokemon>())
+			{
+				<tr>
+					<th>
+						<img scr="@item.PokemonSprite.FrontDefault" alt="Image">
+					</th>
+					<th>
+						@item.Name
+					</th>
+					<th>
+						@item.Order
+					</th>
+					<th>
+						@item.Height
+					</th>
+					<th>
+						@item.Weight
+					</th>
+					<th>
+						@item.BaseExperience
+					</th>
+					<th>
+						@item.IsDefault
+					</th>
+					<th>
+						@foreach(var type in item.Types)
+						{
+							@type.Name <b/>
+						}
+					</th>
+					<th>
+						<div>
+							<button type="submit" class="btn bg-danger" style="width:100px">
+								<a asp-controller="Discover" asp-action="DeletePokemon" asp-route-id="@item.Id" class="text-light fw-bold fst-italic">
+									Delete
+								</a>
+							</button>
+							<button type="submit" class="btn bg-dark" style="width:100px">
+								<a asp-controller="Discover" asp-action="UpdatePokemon" asp-route-id="@item.Id" class="text-light fw-bold fst-italic">
+									Update
+								</a>
+							</button>
+						</div>
+					</th>
+				</tr>
+			}
+		</tbody>
+	</table>
+</form>

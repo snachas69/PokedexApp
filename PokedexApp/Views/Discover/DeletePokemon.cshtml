@@ -1,0 +1,44 @@
+﻿@model Pokemon 
+@{
+	var types = Model.Types;
+}
+<div class=" row pb-2">
+	<h1 class="text-danger fw-bold fst-italic">Are you sure you want to delete this Pokemon?</h1>
+</div>
+
+<form method="post">
+	<div class="border p-3 mt-4">
+		<div class="mb-3">
+			<label> Name</label><input asp-for="Name" type="text" disabled class="form-control"/>
+		</div>
+		<div class="mb-3">
+			<label>Order</label><input asp-for="Order" type="text" disabled class="form-control"/>
+		</div>
+		<div class="mb-3">
+			<label>Height</label><input asp-for="Height" type="text" disabled class="form-control"/>
+		</div>
+		<div class="mb-3">
+			<label>Weight</label><input asp-for="Weight" type="text" disabled class="form-control"/>
+		</div>
+		<div class="mb-3">
+			<label>Base Experience</label><input asp-for="BaseExperience" type="text" disabled class="form-control"/>
+		</div>
+		<div class="mb-3">
+			<label>Is Default</label><input asp-for="IsDefault" type="text" disabled class="form-control"/>
+		</div>
+		<div class="mb-3">
+			<label>Types</label>
+			<br/>
+			@foreach (var item in types)
+			{
+				<span class="fw-bold text-uppercase">@item.Name</span>
+			}
+		</div>
+		<button type="submit" class="btn bg-danger" style="width:150px">
+			<span class="text-light fw-bold fst-italic">Delete</span>
+		</button>
+		<button type="submit" class="btn bg-dark" style="width:150px">
+			<a asp-area="" asp-controller="Discover" asp-action="Index" disabled class="text-light fw-bold fst-italic">Back</a>
+		</button>
+	</div>
+</form>

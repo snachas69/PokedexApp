@@ -1,0 +1,50 @@
+﻿@model Pokemon
+@{
+	var types = ViewData["Types"] as List<PokedexApp.Models.Type>;
+}
+<div class=" row pb-2">
+	<h1 class="text-danger fw-bold fst-italic">Input The New Pokemon's Data</h1>
+</div>
+
+<form method="post">
+	<div class="border p-3 mt-4">
+		<div class="mb-3">
+			<label> Name</label><input asp-for="Name" type="text" class="form-control"/>
+		</div>
+		<div class="mb-3">
+			<label>Order</label><input asp-for="Order" type="text" class="form-control"/>
+		</div>
+		<div class="mb-3">
+			<label>Height</label><input asp-for="Height" type="text" class="form-control"/>
+		</div>
+		<div class="mb-3">
+			<label>Weight</label><input asp-for="Weight" type="text" class="form-control"/>
+		</div>
+		<div class="mb-3">
+			<label>Base Experience</label><input asp-for="BaseExperience" type="text" class="form-control"/>
+		</div>
+		<div class="mb-3">
+			<label>Is Default</label><input asp-for="IsDefault" type="text" class="form-control"/>
+		</div>
+		<div class="mb-3">
+			<label>Types</label>
+			<div class="row">
+				@foreach (var type in types)
+				{
+				<div class="col-md-3"> <!-- Adjust the column size as needed -->
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="SelectedTypes" value="@type.Id" />
+						<label class="form-check-label">@type.Name</label>
+					</div>
+				</div>
+				}
+			</div>
+		</div>
+		<button type="submit" class="btn bg-danger" style="width:150px">
+			<span class="text-light fw-bold fst-italic">Add</span>
+		</button>
+		<button type="submit" class="btn bg-dark" style="width:150px">
+			<a asp-area="" asp-controller="Discover" asp-action="Index" class="text-light fw-bold fst-italic">Back</a>
+		</button>
+	</div>
+</form>
