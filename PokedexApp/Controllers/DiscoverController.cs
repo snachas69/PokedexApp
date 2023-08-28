@@ -9,20 +9,24 @@ namespace PokedexApp.Controllers
     public class DiscoverController : Controller
     {
         private readonly AppDbContext _dbContext;
-        private static bool _isDataInDatabase;
+		private readonly IConfiguration _configuration;
+		private static bool _isDataInDatabase;
 
-		public DiscoverController(AppDbContext dbContext) 
-            => _dbContext = dbContext;
+        public DiscoverController(AppDbContext dbContext, IConfiguration configuration)
+        {
+            _dbContext = dbContext;
+            _configuration = configuration;
+        }
 		
         static DiscoverController()
 			=> _isDataInDatabase = false;
-        
-        public IActionResult Index(string? pokemonName, string? pokemonType)
+
+		public IActionResult Index(string? pokemonName, string? pokemonType)
         {
 #if true
             if (!_isDataInDatabase) LoadFromApi(); //Loads the data from the API 
 #endif
-            PokemonService pokemonService = new(_dbContext);
+            PokemonService pokemonService = new(_dbContext, _configuration);
             IQueryable<Pokemon> query = pokemonService.GetDataFromDatabase();
 			
             if (!string.IsNullOrEmpty(pokemonName))
@@ -38,7 +42,7 @@ namespace PokedexApp.Controllers
 
 		public void LoadFromApi()
 		{
-            PokemonService pokemonService = new(_dbContext);
+            PokemonService pokemonService = new(_dbContext, _configuration);
 
             List<Pokemon> pokemonList = pokemonService.GetDataFromApi();
 
@@ -46,7 +50,7 @@ namespace PokedexApp.Controllers
             {
                 foreach (var type in pokemon.Types.ToList())
                 {
-                    var existingType = _dbContext.Types.Find(type.Id);
+					var existingType = _dbContext.Types.Find(type.Id);
                     if (existingType != null)
                     {
                         pokemon.Types.Remove(type);
@@ -85,7 +89,7 @@ namespace PokedexApp.Controllers
                     FrontShiny = null,
                     FrontShinyFemale = null,
                 };
-                PokemonService pokemonService = new(_dbContext);
+                PokemonService pokemonService = new(_dbContext, _configuration);
                 pokemonService.AddPokemon(obj);
             }
 
