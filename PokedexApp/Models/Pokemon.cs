@@ -9,7 +9,7 @@ namespace PokedexApp.Models
         [Required]
         public string Name { get; set; } = null!;
         [Required]
-        public int BaseExperience { get; set; }
+		public int BaseExperience { get; set; }
         [Required]
         public int Height { get; set; }
         [Required]
